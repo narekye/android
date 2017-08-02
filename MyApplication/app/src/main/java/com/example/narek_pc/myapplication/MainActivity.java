@@ -2,6 +2,7 @@ package com.example.narek_pc.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,45 +38,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Login(View view) throws InterruptedException {
-        mcontext = this;
-        final EditText username = (EditText) findViewById(R.id.username);
-        final EditText password = (EditText) findViewById(R.id.password);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AndroidHttpClient client = null;
-                client = AndroidHttpClient.newInstance(userAgent(), mcontext);
-                HttpPost request = new HttpPost(url);
-                try {
-                    StringEntity entity = new StringEntity("grant_type=password&username=" + username.getText() + "&password=" + password.getText());
-                    entity.setContentType(new BasicHeader("Content-Type", "application/x-www-form-urlencoded"));
-                    request.setEntity(entity);
-                    response = client.execute(request);
-                    statusLine = response.getStatusLine();
-                    HttpEntity en = response.getEntity();
-                    String resp = EntityUtils.toString(en, "UTF-8");
-                    responseString = resp.toString();
-                    if (statusLine.getStatusCode() == 400) {
-                        showMessage("The username/password is incorrect.");
-                    } else {
-                        showMessage("Please wait");
-                        JSONObject json = new JSONObject(responseString.toString());
-                        responseString = json.getString("access_token");
-                        Thread.sleep(3000);
-                        next();
+        if (!isConnected()) {
+            showMessage("Please connect to internet");
+        } else {
+            mcontext = this;
+            final EditText username = (EditText) findViewById(R.id.username);
+            final EditText password = (EditText) findViewById(R.id.password);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    AndroidHttpClient client = null;
+                    client = AndroidHttpClient.newInstance(userAgent(), mcontext);
+                    HttpPost request = new HttpPost(url);
+                    try {
+                        StringEntity entity = new StringEntity("grant_type=password&username=" + username.getText() + "&password=" + password.getText());
+                        entity.setContentType(new BasicHeader("Content-Type", "application/x-www-form-urlencoded"));
+                        request.setEntity(entity);
+                        response = client.execute(request);
+                        statusLine = response.getStatusLine();
+                        HttpEntity en = response.getEntity();
+                        String resp = EntityUtils.toString(en, "UTF-8");
+                        responseString = resp.toString();
+                        if (statusLine.getStatusCode() == 400) {
+                            showMessage("The username/password is incorrect.");
+                        } else {
+                            showMessage("Please wait");
+                            JSONObject json = new JSONObject(responseString.toString());
+                            responseString = json.getString("access_token");
+                            Thread.sleep(3000);
+                            next();
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
-            }
-        }).start();
+            }).start();
+        }
     }
 
     private void showMessage(final String message) {
@@ -102,4 +107,11 @@ public class MainActivity extends AppCompatActivity {
         EditText filed = (EditText) findViewById(view.getId());
         filed.setText("");
     }
+
+
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
+
 }

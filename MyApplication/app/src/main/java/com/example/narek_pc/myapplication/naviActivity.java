@@ -78,14 +78,12 @@ public class naviActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (id == R.id.contacts) {
+            toContactPage();
+        } else if (id == R.id.mailing) {
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.tools) {
 
         } else if (id == R.id.logout) {
             MainActivity.responseString = null;
@@ -99,6 +97,11 @@ public class naviActivity extends AppCompatActivity
 
     private void toMainPage() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void toContactPage() {
+        Intent intent = new Intent(getApplicationContext(), contactsActivity.class);
         startActivity(intent);
     }
 }

@@ -21,8 +21,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_navi"
         app:menu="@menu/activity_navi_drawer" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="To start just pull up the right panel"/>
 </android.support.v4.widget.DrawerLayout>
