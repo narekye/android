@@ -7,17 +7,19 @@
     android:padding="50px"
     android:orientation="vertical"
     android:theme="@style/AppTheme"
-    tools:context="com.example.narek_pc.myapplication.MainActivity">
+    tools:context="com.example.narek_pc.myapplication.MainActivity"
+    android:weightSum="1">
 
     <TextView
+
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="331dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:layout_marginEnd="70dp"
         android:layout_marginRight="70dp"
         android:layout_marginTop="10dp"
-        android:text="Login to Crm"
+        android:text="Sign up or login to CRM"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.598"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -27,26 +29,43 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="200dp"
+        android:layout_width="340dp"
         android:layout_height="50dp"
         android:text="Username"
+        android:textAlignment="center"
         tools:layout_editor_absoluteX="93dp"
-        tools:layout_editor_absoluteY="106dp" />
+        tools:layout_editor_absoluteY="106dp"
+        android:layout_weight="0.01"
+        android:onClick="eraseonclick"/>
+
     <EditText
         android:id="@+id/password"
-        android:layout_width="200dp"
+        android:textAlignment="center"
+        android:layout_width="339dp"
         android:layout_height="50dp"
+        android:layout_weight="0.02"
         android:password="true"
-        android:text="Password"
+        android:text=""
+        android:onClick="eraseonclick"
         tools:layout_editor_absoluteX="95dp"
         tools:layout_editor_absoluteY="186dp" />
-    <Button
-        android:id="@+id/button"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:onClick="Login"
-        android:text="Login"
-        tools:layout_editor_absoluteX="155dp"
-        tools:layout_editor_absoluteY="299dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="0.15"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="227dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:onClick="Login"
+            android:padding="5px"
+            android:text="Login"
+            tools:layout_editor_absoluteX="155dp"
+            tools:layout_editor_absoluteY="299dp" />
+    </LinearLayout>
 </LinearLayout>

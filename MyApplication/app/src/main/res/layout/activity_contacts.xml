@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.narek_pc.myapplication.ContactsActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dip" >
 
-</android.support.constraint.ConstraintLayout>
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="10dip"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            />
+        </TableRow>
+
+        <TableRow
+
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <!-- Some stuff goes here -->
+
+            />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!-- Some stuff goes here -->
+
+            />
+        </TableRow>
+
+
+    </TableLayout>
+</RelativeLayout>
