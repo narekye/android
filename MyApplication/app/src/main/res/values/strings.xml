@@ -3,4 +3,10 @@
     <string name="barev_ara">Barev ara!</string>
     <string name="title_contacts_list">Items</string>
     <string name="title_contacts_detail">Contacts Detail</string>
+    <string name="title_activity_navi">naviActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

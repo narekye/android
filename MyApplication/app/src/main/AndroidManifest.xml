@@ -18,7 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".contactsActivity"></activity>
+        <activity android:name=".contactsActivity" />
+        <activity
+            android:name=".naviActivity"
+            android:label="@string/title_activity_navi"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

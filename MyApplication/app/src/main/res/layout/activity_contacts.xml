@@ -35,13 +35,14 @@
             android:text="Name"></TextView>
 
         <TextView
-            android:textAlignment="center"
-            android:text="Company"></TextView>
+            android:id="@+id/textView2"
+            android:text="Company"
+            android:textAlignment="center"></TextView>
 
         <TextView
             android:id="@+id/TextView031"
-            android:textAlignment="center"
             android:text="Position"
+            android:textAlignment="center"
             android:typeface="serif"></TextView>
 
         <TextView

@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void next() {
-        Intent intent = new Intent(getApplicationContext(), contactsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), naviActivity.class);
         startActivity(intent);
     }
 
