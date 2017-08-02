@@ -29,26 +29,23 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="340dp"
+        android:layout_width="336dp"
         android:layout_height="50dp"
         android:text="Username"
-        android:textAlignment="center"
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="106dp"
-        android:layout_weight="0.01"
-        android:onClick="eraseonclick"/>
-
+        android:onClick="eraseonclick"
+        android:layout_weight="0.02" />
     <EditText
         android:id="@+id/password"
-        android:textAlignment="center"
-        android:layout_width="339dp"
+        android:layout_width="336dp"
         android:layout_height="50dp"
-        android:layout_weight="0.02"
+        android:onClick="eraseonclick"
         android:password="true"
         android:text=""
-        android:onClick="eraseonclick"
         tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="186dp" />
+        tools:layout_editor_absoluteY="186dp"
+        android:layout_weight="0.02" />
 
     <LinearLayout
         android:layout_width="match_parent"

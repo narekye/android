@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     if (statusLine.getStatusCode() == 400) {
                         showMessage("The username/password is incorrect.");
                     } else {
-                        showMessage("Please wait.");
+                        showMessage("Please wait");
                         JSONObject json = new JSONObject(responseString.toString());
                         responseString = json.getString("access_token");
                         Thread.sleep(3000);
