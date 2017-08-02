@@ -1,32 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="50px"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme"
     tools:context="com.example.narek_pc.myapplication.MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/barev_ara"
+        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="10dp"
+        android:text="Login to Crm"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.598"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.093"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="60dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="60dp"
-        app:layout_constraintVertical_bias="0.032" />
+        app:layout_constraintVertical_bias="0.036" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:onClick="ClearUsername"
+        android:text="Username"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="106dp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:onClick="ClearPassword"
+        android:text="Password"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="186dp" />
 
     <Button
+        android:id="@+id/button"
         android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="60px"
-        android:text="button"
-        android:onClick="poxel"/>
+        android:layout_height="48dp"
+        android:onClick="Login"
+        android:text="Login"
 
-</android.support.constraint.ConstraintLayout>
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="299dp" />
+
+</LinearLayout>
