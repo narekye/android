@@ -34,15 +34,21 @@ import java.io.UnsupportedEncodingException;
 
 public class contactsActivity extends AppCompatActivity {
     private static String baseUrl = "http://crmbetd.azurewebsites.net/api/";
+    private static String fullname = "Full Name";
+    private static String email = "Email";
+    private static String company = "Company Name";
+    private static String position = "Position";
     Context mcontext;
     public static String responseString;
     HttpResponse response = null;
     StatusLine statusLine = null;
     JSONArray json = new JSONArray();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_contacts);
         GetContacts();
     }
@@ -51,11 +57,12 @@ public class contactsActivity extends AppCompatActivity {
         return "Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13";
     }
 
+
     public void GetContacts() {
         mcontext = this;
 
         final AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent(), mcontext);
-        new Thread(new Runnable() {
+        Thread thr = new Thread(new Runnable() {
             @Override
             public void run() {
                 HttpGet request = new HttpGet(baseUrl + "contacts");
@@ -66,7 +73,7 @@ public class contactsActivity extends AppCompatActivity {
                     HttpEntity entity = response.getEntity();
                     responseString = EntityUtils.toString(entity, "UTF-8");
                     json = new JSONArray(responseString.toString());
-                    init(json);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -74,50 +81,76 @@ public class contactsActivity extends AppCompatActivity {
                 }
             }
 
-        }).start();
-        // init(json);
+        });
+        thr.start();
+        try {
+            thr.join();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (json != null)
+                        init(json);
+                }
+            });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void init(final JSONArray object) {
+        if (object == null) {
+            return;
+        }
+        String separator = " | ";
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
         TableRow tbrow0 = new TableRow(this);
         TextView tv0 = new TextView(this);
-        tv0.setText(" No ");
-        tv0.setTextColor(Color.WHITE);
+        tv0.setText("No");
+        tv0.setTextColor(Color.GREEN);
+        tv0.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tbrow0.addView(tv0);
         TextView tv1 = new TextView(this);
-        tv1.setText(" Name ");
-        tv1.setTextColor(Color.WHITE);
+        tv1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv1.setText("Name");
+        tv1.setTextColor(Color.RED);
         tbrow0.addView(tv1);
         TextView tv2 = new TextView(this);
-        tv2.setText(" Company ");
-        tv2.setTextColor(Color.WHITE);
+        tv2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv2.setText("Company");
+        tv2.setTextColor(Color.RED);
         tbrow0.addView(tv2);
         TextView tv3 = new TextView(this);
-        tv3.setText(" Email ");
-        tv3.setTextColor(Color.WHITE);
+        tv3.setText("Email");
+        tv3.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv3.setTextColor(Color.RED);
         tbrow0.addView(tv3);
         stk.addView(tbrow0);
         try {
             for (int i = 0; i < object.length(); i++) {
                 TableRow tbrow = new TableRow(this);
                 TextView t1v = new TextView(this);
-                t1v.setText("" + i);
+                t1v.setText(i + separator);
                 t1v.setTextColor(Color.WHITE);
                 t1v.setGravity(Gravity.CENTER);
                 tbrow.addView(t1v);
                 TextView t2v = new TextView(this);
-                t2v.setText(object.getString(i));
+                JSONObject data = object.getJSONObject(i);
+
+                t2v.setText(data.getString(fullname));
+
                 t2v.setTextColor(Color.WHITE);
                 t2v.setGravity(Gravity.CENTER);
                 tbrow.addView(t2v);
+
                 TextView t3v = new TextView(this);
-                t3v.setText("Rs." + i);
+                t3v.setText(data.getString(company));
                 t3v.setTextColor(Color.WHITE);
                 t3v.setGravity(Gravity.CENTER);
                 tbrow.addView(t3v);
+
                 TextView t4v = new TextView(this);
-                t4v.setText("" + i * 15 / 32 * 10);
+                t4v.setText(data.getString(email));
+
                 t4v.setTextColor(Color.WHITE);
                 t4v.setGravity(Gravity.CENTER);
                 tbrow.addView(t4v);
@@ -127,5 +160,18 @@ public class contactsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private void showMessage(final View view, final String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                                    /*.setAction("Action", null)*/.show();
+        // runOnUiThread(new Runnable() {
+        //    @Override
+        //    public void run() {
+        //        Toast.makeText(MainActivity.this,
+        //                message,
+        //                Toast.LENGTH_LONG).show();
+        //    }
+        //});
     }
 }
