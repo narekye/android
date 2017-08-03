@@ -16,7 +16,6 @@
             android:layout_gravity="center"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
             <TableLayout
                 android:id="@+id/table_main"
                 android:layout_width="wrap_content"

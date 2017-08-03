@@ -21,6 +21,10 @@ public class naviActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (MainActivity.responseString == null || MainActivity.responseString == "") {
+            setContentView(R.layout.activity_main);
+            return;
+        }
         setContentView(R.layout.activity_navi);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -123,7 +127,6 @@ public class naviActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                // showMessage("kpar");
             }
         };
     }

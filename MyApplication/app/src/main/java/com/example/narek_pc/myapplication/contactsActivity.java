@@ -56,8 +56,6 @@ public class contactsActivity extends AppCompatActivity {
     private String userAgent() {
         return "Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13";
     }
-
-
     public void GetContacts() {
         mcontext = this;
 
