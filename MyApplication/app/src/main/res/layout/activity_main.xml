@@ -16,18 +16,19 @@
         android:layout_height="50dp"
         android:layout_weight="0.02"
         android:onClick="eraseonclick"
-        android:text="Username"
+        android:text="narekye"
         tools:layout_editor_absoluteX="93dp"
         tools:layout_editor_absoluteY="106dp" />
 
     <EditText
         android:id="@+id/password"
+
         android:layout_width="336dp"
         android:layout_height="50dp"
         android:layout_weight="0.02"
         android:onClick="eraseonclick"
         android:password="true"
-        android:text=""
+        android:text="Anlegala88%2B"
         tools:layout_editor_absoluteX="95dp"
         tools:layout_editor_absoluteY="186dp" />
 

@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class naviActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,7 +29,7 @@ public class naviActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Sending email", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -67,8 +68,8 @@ public class naviActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        // settings
+        if (id == R.id.settings) {
             return true;
         }
 
@@ -103,5 +104,27 @@ public class naviActivity extends AppCompatActivity
     private void toContactPage() {
         Intent intent = new Intent(getApplicationContext(), contactsActivity.class);
         startActivity(intent);
+    }
+
+    private void showMessage(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(naviActivity.this,
+                        message,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public View.OnClickListener statusMessage(final String message) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                // showMessage("kpar");
+            }
+        };
     }
 }

@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,17 +32,15 @@ public class MainActivity extends AppCompatActivity {
     public static String responseString;
     HttpResponse response = null;
     StatusLine statusLine = null;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
-    public void Login(View view) throws InterruptedException {
+    public void Login(final View view) throws InterruptedException {
         if (!isConnected()) {
-            showMessage("Please connect to internet");
+            showMessage(view, "Please connect to internet");
         } else {
             mcontext = this;
             final EditText username = (EditText) findViewById(R.id.username);
@@ -60,9 +61,10 @@ public class MainActivity extends AppCompatActivity {
                         String resp = EntityUtils.toString(en, "UTF-8");
                         responseString = resp.toString();
                         if (statusLine.getStatusCode() == 400) {
-                            showMessage("The username/password is incorrect.");
+                            showMessage(view, "The username/password is incorrect.");
                         } else {
-                            showMessage("Please wait");
+                            hideKeyboard(view);
+                            showMessage(view, "Please wait");
                             JSONObject json = new JSONObject(responseString.toString());
                             responseString = json.getString("access_token");
                             Thread.sleep(3000);
@@ -83,15 +85,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showMessage(final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this,
-                        message,
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+    private void showMessage(final View view, final String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                                    /*.setAction("Action", null)*/.show();
+        // runOnUiThread(new Runnable() {
+        //    @Override
+        //    public void run() {
+        //        Toast.makeText(MainActivity.this,
+        //                message,
+        //                Toast.LENGTH_LONG).show();
+        //    }
+        //});
+    }
+
+    private void hideKeyboard(final View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private String userAgent() {
