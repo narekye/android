@@ -74,16 +74,17 @@ public class CrmSession {
         // place for some logic, such as administrative tools;
         return this.token;
     }
-
-    public <T> T fetch(String uri, String method, JSONObject body) {
-        HttpRequest request;
+    // TODO: fetch with one array method, and one simple object
+    public <T> T fetch(String uri, String method, JSONObject body, Context context) {
+        client = AndroidHttpClient.newInstance(userAgent, context);
         if (method == "GET") {
-            request = new HttpGet(baseUrl + uri);
+            HttpGet request = new HttpGet(baseUrl + uri);
             if (!prepareRequest(request)) {
                 return null;
             }
             try {
-                httpResponse = client.execute((HttpUriRequest) request); // change
+                httpResponse = null;
+                httpResponse = client.execute(request); // change
                 httpResponseText = httpResponse.getEntity();
                 statusLine = httpResponse.getStatusLine();
                 String data = EntityUtils.toString(httpResponseText, "UTF-8").toString();
@@ -109,7 +110,7 @@ public class CrmSession {
         } else if (method == "POST") {
 
         }
-        return (T) "asd";
+         return (T) "asd";
     }
 
     public boolean prepareRequest(HttpRequest request) {
@@ -121,7 +122,7 @@ public class CrmSession {
         return false;
     }
 
-    public static CrmSession getInstance(){
+    public static CrmSession getInstance() {
         return instance != null ? instance : new CrmSession();
     }
 }

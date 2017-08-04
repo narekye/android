@@ -46,8 +46,9 @@ public class contactsActivity extends AppCompatActivity {
     HttpResponse response = null;
     StatusLine statusLine = null;
     JSONArray json = new JSONArray();
-    CrmSession session ;
+    CrmSession session;
     Utilities util = new Utilities();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +62,15 @@ public class contactsActivity extends AppCompatActivity {
     }
 
     public void GetContacts() {
-        final JSONArray array = session.fetch("contacts", "GET", null);
-        mcontext = this;
+        // final JSONArray array = session.fetch("contacts", "GET", null, this);
+        // mcontext = this;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final JSONArray array = session.fetch("contacts", "GET", null);
-
+                final JSONArray array = session.fetch("contacts", "GET", null, null);
+                if (true) {
+                    init(array);
+                }
             }
         }).start();
     }
