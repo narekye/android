@@ -15,16 +15,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import crm.java.CrmSession;
+
 public class naviActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private CrmSession session = CrmSession.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (MainActivity.responseString == null || MainActivity.responseString == "") {
-            setContentView(R.layout.activity_main);
-            return;
-        }
+//        if (MainActivity.responseString == null || MainActivity.responseString == "") {
+//            setContentView(R.layout.activity_main);
+//            return;
+//        }
         setContentView(R.layout.activity_navi);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,7 +93,7 @@ public class naviActivity extends AppCompatActivity
         } else if (id == R.id.tools) {
 
         } else if (id == R.id.logout) {
-            MainActivity.responseString = null;
+            session.logOut();
             toMainPage();
         }
 

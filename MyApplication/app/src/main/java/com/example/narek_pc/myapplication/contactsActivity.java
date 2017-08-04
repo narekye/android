@@ -32,6 +32,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import crm.java.CrmSession;
+import crm.java.Utilities;
+
 public class contactsActivity extends AppCompatActivity {
     private static String baseUrl = "http://crmbetd.azurewebsites.net/api/";
     private static String fullname = "Full Name";
@@ -43,12 +46,12 @@ public class contactsActivity extends AppCompatActivity {
     HttpResponse response = null;
     StatusLine statusLine = null;
     JSONArray json = new JSONArray();
-
-
+    CrmSession session ;
+    Utilities util = new Utilities();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        session = CrmSession.getInstance();
         setContentView(R.layout.activity_contacts);
         GetContacts();
     }
@@ -56,43 +59,17 @@ public class contactsActivity extends AppCompatActivity {
     private String userAgent() {
         return "Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13";
     }
-    public void GetContacts() {
-        mcontext = this;
 
-        final AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent(), mcontext);
-        Thread thr = new Thread(new Runnable() {
+    public void GetContacts() {
+        final JSONArray array = session.fetch("contacts", "GET", null);
+        mcontext = this;
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                HttpGet request = new HttpGet(baseUrl + "contacts");
-                request.addHeader("Authorization", "bearer " + MainActivity.responseString);
-                try {
-                    response = client.execute(request);
-                    statusLine = response.getStatusLine();
-                    HttpEntity entity = response.getEntity();
-                    responseString = EntityUtils.toString(entity, "UTF-8");
-                    json = new JSONArray(responseString.toString());
+                final JSONArray array = session.fetch("contacts", "GET", null);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
-
-        });
-        thr.start();
-        try {
-            thr.join();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (json != null)
-                        init(json);
-                }
-            });
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        }).start();
     }
 
     public void init(final JSONArray object) {
