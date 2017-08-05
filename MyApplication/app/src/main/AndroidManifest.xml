@@ -25,7 +25,6 @@
             android:name=".naviActivity"
             android:label="@string/title_activity_navi"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TableActivity"></activity>
     </application>
 
 </manifest>

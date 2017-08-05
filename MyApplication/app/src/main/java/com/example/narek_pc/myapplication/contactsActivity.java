@@ -33,49 +33,49 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import crm.java.CrmSession;
+import crm.java.ICrmSession;
 import crm.java.Utilities;
 
 public class contactsActivity extends AppCompatActivity {
-    private static String baseUrl = "http://crmbetd.azurewebsites.net/api/";
+
     private static String fullname = "Full Name";
     private static String email = "Email";
     private static String company = "Company Name";
     private static String position = "Position";
     Context mcontext;
     public static String responseString;
-    HttpResponse response = null;
-    StatusLine statusLine = null;
-    JSONArray json = new JSONArray();
-    CrmSession session;
-    Utilities util = new Utilities();
+    ICrmSession session;
+    Utilities util;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        util = new Utilities();
         super.onCreate(savedInstanceState);
         session = CrmSession.getInstance();
         setContentView(R.layout.activity_contacts);
         GetContacts();
     }
 
-    private String userAgent() {
-        return "Mozilla/5.0 (X11; U; Linux i686; zh-CN; rv:1.9.2.13) Gecko/20101203 Firefox/3.6.13";
-    }
-
     public void GetContacts() {
-        // final JSONArray array = session.fetch("contacts", "GET", null, this);
-        // mcontext = this;
-        new Thread(new Runnable() {
+        mcontext = this;
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                final JSONArray array = session.fetch("contacts", "GET", null, null);
-                if (true) {
-                    init(array);
-                }
+                Object o = session.fetch("contacts", "GET", null, mcontext);
+                if(o == null) return;
+                final JSONArray array = (JSONArray) o;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        init(array);
+                    }
+                });
             }
-        }).start();
+        });
+        thread.start();
     }
 
-    public void init(final JSONArray object) {
+    public void init( JSONArray object) {
         if (object == null) {
             return;
         }
@@ -91,17 +91,30 @@ public class contactsActivity extends AppCompatActivity {
         tv1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv1.setText("Name");
         tv1.setTextColor(Color.RED);
+
         tbrow0.addView(tv1);
+
         TextView tv2 = new TextView(this);
         tv2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv2.setText("Company");
         tv2.setTextColor(Color.RED);
+
         tbrow0.addView(tv2);
+
         TextView tv3 = new TextView(this);
         tv3.setText("Email");
         tv3.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv3.setTextColor(Color.RED);
+
         tbrow0.addView(tv3);
+
+        TextView tv4 = new TextView(this);
+        tv4.setText("Position");
+        tv4.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tv4.setTextColor(Color.RED);
+
+        tbrow0.addView(tv4);
+
         stk.addView(tbrow0);
         try {
             for (int i = 0; i < object.length(); i++) {
@@ -132,6 +145,12 @@ public class contactsActivity extends AppCompatActivity {
                 t4v.setTextColor(Color.WHITE);
                 t4v.setGravity(Gravity.CENTER);
                 tbrow.addView(t4v);
+                TextView t5v = new TextView(this);
+                t5v.setText(data.getString(position));
+                t5v.setTextColor(Color.WHITE);
+                t5v.setGravity(Gravity.CENTER);
+
+                tbrow.addView(t5v);
                 stk.addView(tbrow);
             }
         } catch (JSONException e) {

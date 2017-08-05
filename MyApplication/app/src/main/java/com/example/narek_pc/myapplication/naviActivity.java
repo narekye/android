@@ -23,10 +23,6 @@ public class naviActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (MainActivity.responseString == null || MainActivity.responseString == "") {
-//            setContentView(R.layout.activity_main);
-//            return;
-//        }
         setContentView(R.layout.activity_navi);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -23,7 +23,7 @@ import java.io.IOException;
  * Created by narek.yegoryan on 04/08/2017.
  */
 
-public class CrmSession {
+public class CrmSession implements ICrmSession {
     private static String token = null;
     private static String baseUrl = "http://crmbetd.azurewebsites.net/api/";
     private AndroidHttpClient client = null;
@@ -32,9 +32,10 @@ public class CrmSession {
     private HttpEntity httpResponseText = null;
     private StatusLine statusLine = null;
     private static CrmSession instance;
-
+    private String data;
     // Login section
 
+    @Override
     public String Login(SuccessModel model, String usname, String password, Context context) {
         HttpPost request = new HttpPost(baseUrl + "token");
         this.client = AndroidHttpClient.newInstance(userAgent, context);
@@ -69,51 +70,44 @@ public class CrmSession {
     }
 
     // ============
-
+    @Override
     public String getToken() {
         // place for some logic, such as administrative tools;
         return this.token;
     }
+
     // TODO: fetch with one array method, and one simple object
-    public <T> T fetch(String uri, String method, JSONObject body, Context context) {
+    @Override
+    public Object fetch(String uri, String method, JSONObject body, Context context) {
+        Object result = null;
         client = AndroidHttpClient.newInstance(userAgent, context);
-        if (method == "GET") {
-            HttpGet request = new HttpGet(baseUrl + uri);
-            if (!prepareRequest(request)) {
+        // if (method == "GET") {
+        HttpGet request = new HttpGet(baseUrl + uri);
+        prepareRequest(request);
+
+        try {
+            httpResponse = null;
+            httpResponse = client.execute(request); // change
+            httpResponseText = httpResponse.getEntity();
+            statusLine = httpResponse.getStatusLine();
+            data = EntityUtils.toString(httpResponseText, "UTF-8").toString();
+            if (statusLine.getStatusCode() == 401) {
                 return null;
             }
+            result = new JSONObject(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             try {
-                httpResponse = null;
-                httpResponse = client.execute(request); // change
-                httpResponseText = httpResponse.getEntity();
-                statusLine = httpResponse.getStatusLine();
-                String data = EntityUtils.toString(httpResponseText, "UTF-8").toString();
-                if (statusLine.getStatusCode() == 401) {
-                    return null;
-                }
-                try {
-                    JSONObject json = new JSONObject(data);
-                    return (T) json;
-                } catch (JSONException e) {
-                    try {
-                        JSONArray json = new JSONArray(data);
-                        return (T) json;
-                    } catch (JSONException e1) {
-                        return null;
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+                result = new JSONArray(data);
+            } catch (JSONException e1) {
+                result = null;
             }
-
-        } else if (method == "POST") {
-
         }
-         return (T) "asd";
+        return result;
     }
 
-    public boolean prepareRequest(HttpRequest request) {
+    private boolean prepareRequest(HttpRequest request) {
         request.setHeader("Content-type", "application/json");
         if (token != null) {
             request.addHeader("authorization", "bearer " + getToken());
