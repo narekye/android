@@ -8,23 +8,21 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="CRM BetConstruct"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/ic_bet"
+        android:label="BetConstruct"
+        android:roundIcon="@mipmap/ic_bet"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".contactsActivity" />
         <activity
             android:name=".naviActivity"
-            android:label="@string/title_activity_navi"
+            android:label="Navigation"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
-
 </manifest>

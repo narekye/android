@@ -63,7 +63,7 @@ public class CrmSession implements ICrmSession {
             return "Something went wrong";
         }
     }
-
+    @Override
     public void logOut() {
         token = null;
     }

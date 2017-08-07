@@ -14,4 +14,6 @@ public interface ICrmSession {
     String getToken();
 
     Object fetch(String uri, String method, JSONObject body, Context context);
+
+    void logOut();
 }

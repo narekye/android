@@ -20,7 +20,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
             <EditText android:id="@+id/username"
-                android:textColor="#ffFFFF"
+                android:text="narekye"
+                android:textColor="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -36,7 +37,8 @@
             android:textColor="#ffFFFF">
 
             <EditText android:id="@+id/password"
-                android:textColor="#ffFFFF"
+                android:text="Anlegala88%2B"
+                android:textColor="@color/colorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"

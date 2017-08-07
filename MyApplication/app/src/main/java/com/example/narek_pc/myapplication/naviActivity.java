@@ -16,10 +16,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import crm.java.CrmSession;
+import crm.java.ICrmSession;
 
 public class naviActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private CrmSession session = CrmSession.getInstance();
+    private ICrmSession session = CrmSession.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,7 @@ public class naviActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        session.logOut();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);

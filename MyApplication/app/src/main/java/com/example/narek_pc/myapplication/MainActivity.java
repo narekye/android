@@ -25,24 +25,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         utilities = new Utilities();
         session = CrmSession.getInstance();
-//        (R.id.link_signup) TextView _signupLink;
-//        _signupLink.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // Start the Signup activity
-//                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-//                startActivityForResult(intent, REQUEST_SIGNUP);
-//            }
-//        });
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         if (!isConnected()) {
             Toast.makeText(MainActivity.this,
-                                    "Please connecct to internet",
-                                   Toast.LENGTH_LONG).show();
+                    "Please connecct to internet",
+                    Toast.LENGTH_LONG).show();
             return;
         }
-        setContentView(R.layout.activity_main);
+        Button button = (Button) findViewById(R.id.button);
+        if (session.getToken() == null)
+            button.setClickable(true);
+        button.setClickable(true);
     }
 
     public void Login(final View view) {
@@ -55,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 SuccessModel model = new SuccessModel();
                 String result = session.Login(model, username.getText().toString(), password.getText().toString(), mcontext);
                 utilities.showMessage(view, result);
-                setButton(button, false);
+                // setButton(button);
                 try {
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
@@ -63,20 +57,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (model.isSuccess()) {
                     naviPage();
-                } else {
-                    setButton(button, true);
                 }
             }
         }).start();
-    }
-
-    public static void setButton(Button bt, boolean flag) {
-        bt.setClickable(flag);
-    }
-
-    public void eraseonclick(View view) {
-        EditText filed = (EditText) findViewById(view.getId());
-        filed.setText("");
     }
 
     public void naviPage() {
