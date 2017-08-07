@@ -8,6 +8,27 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
+    <HorizontalScrollView
+        android:id="@+id/hscrll1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_gravity="center"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+            <TableLayout
+                android:id="@+id/table_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" >
+            </TableLayout>
+        </RelativeLayout>
+    </HorizontalScrollView>
+
     <include
         layout="@layout/app_bar_navi"
         android:layout_width="match_parent"
@@ -21,4 +42,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_navi"
         app:menu="@menu/activity_navi_drawer" />
+
+
 </android.support.v4.widget.DrawerLayout>
