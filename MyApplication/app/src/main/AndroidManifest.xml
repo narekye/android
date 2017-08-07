@@ -16,6 +16,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,5 +25,7 @@
             android:name=".naviActivity"
             android:label="Navigation"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".EmailListActivity"></activity>
     </application>
+
 </manifest>

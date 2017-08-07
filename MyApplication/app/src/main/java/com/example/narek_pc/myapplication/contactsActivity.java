@@ -3,7 +3,6 @@ package com.example.narek_pc.myapplication;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -25,10 +24,9 @@ public class contactsActivity extends AppCompatActivity {
     private static String email = "Email";
     private static String company = "Company Name";
     private static String position = "Position";
-    Context mcontext;
-    // public static String responseString;
-    ICrmSession session;
-    Utilities util;
+
+    private ICrmSession session;
+    private Utilities util;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +34,17 @@ public class contactsActivity extends AppCompatActivity {
         util = new Utilities();
         session = CrmSession.getInstance();
         setContentView(R.layout.activity_contacts);
+        setTitle("Contacts");
         GetContacts();
     }
 
     public void GetContacts() {
-        mcontext = this;
+        final Context context = this;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Object o = session.fetch("contacts", "GET", null, mcontext);
-                if(o == null) return;
+                Object o = session.fetch("contacts", "GET", null, context);
+                if (o == null) return;
                 final JSONArray array = (JSONArray) o;
                 runOnUiThread(new Runnable() {
                     @Override
@@ -58,7 +57,7 @@ public class contactsActivity extends AppCompatActivity {
         thread.start();
     }
 
-    public void init( JSONArray object) {
+    public void init(JSONArray object) {
         if (object == null) {
             return;
         }
@@ -74,30 +73,22 @@ public class contactsActivity extends AppCompatActivity {
         tv1.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv1.setText("Name");
         tv1.setTextColor(Color.RED);
-
         tbrow0.addView(tv1);
-
         TextView tv2 = new TextView(this);
         tv2.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv2.setText("Company");
         tv2.setTextColor(Color.RED);
-
         tbrow0.addView(tv2);
-
         TextView tv3 = new TextView(this);
         tv3.setText("Email");
         tv3.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv3.setTextColor(Color.RED);
-
         tbrow0.addView(tv3);
-
         TextView tv4 = new TextView(this);
         tv4.setText("Position");
         tv4.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tv4.setTextColor(Color.RED);
-
         tbrow0.addView(tv4);
-
         stk.addView(tbrow0);
         try {
             for (int i = 0; i < object.length(); i++) {
@@ -109,22 +100,17 @@ public class contactsActivity extends AppCompatActivity {
                 tbrow.addView(t1v);
                 TextView t2v = new TextView(this);
                 JSONObject data = object.getJSONObject(i);
-
                 t2v.setText(data.getString(fullname));
-
                 t2v.setTextColor(Color.WHITE);
                 t2v.setGravity(Gravity.CENTER);
                 tbrow.addView(t2v);
-
                 TextView t3v = new TextView(this);
                 t3v.setText(data.getString(company));
                 t3v.setTextColor(Color.WHITE);
                 t3v.setGravity(Gravity.CENTER);
                 tbrow.addView(t3v);
-
                 TextView t4v = new TextView(this);
                 t4v.setText(data.getString(email));
-
                 t4v.setTextColor(Color.WHITE);
                 t4v.setGravity(Gravity.CENTER);
                 tbrow.addView(t4v);
@@ -132,26 +118,11 @@ public class contactsActivity extends AppCompatActivity {
                 t5v.setText(data.getString(position));
                 t5v.setTextColor(Color.WHITE);
                 t5v.setGravity(Gravity.CENTER);
-
                 tbrow.addView(t5v);
                 stk.addView(tbrow);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-    }
-
-    private void showMessage(final View view, final String message) {
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-                                    /*.setAction("Action", null)*/.show();
-        // runOnUiThread(new Runnable() {
-        //    @Override
-        //    public void run() {
-        //        Toast.makeText(MainActivity.this,
-        //                message,
-        //                Toast.LENGTH_LONG).show();
-        //    }
-        //});
     }
 }

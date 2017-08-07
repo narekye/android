@@ -32,6 +32,10 @@ public class CrmSession implements ICrmSession {
     private StatusLine statusLine = null;
     private static CrmSession instance;
     private String data;
+
+    public CrmSession() {
+        instance = this;
+    }
     // Login section
 
     @Override
@@ -63,12 +67,12 @@ public class CrmSession implements ICrmSession {
             return "Something went wrong";
         }
     }
+
     @Override
     public void logOut() {
         token = null;
     }
 
-    // ============
     @Override
     public String getToken() {
         // place for some logic, such as administrative tools;

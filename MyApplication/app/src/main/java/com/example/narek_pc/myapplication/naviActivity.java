@@ -1,13 +1,9 @@
 package com.example.narek_pc.myapplication;
 
-import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,33 +13,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import crm.java.CrmSession;
 import crm.java.ICrmSession;
-import crm.java.SuccessModel;
-import crm.java.Utilities;
 
 public class naviActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ICrmSession session = CrmSession.getInstance();
-    private Utilities util;
+    // private Utilities util;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navi);
-        GetMailingLists();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        util = new Utilities();
+        // util = new Utilities();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,9 +88,9 @@ public class naviActivity extends AppCompatActivity
         if (id == R.id.contacts) {
             toContactPage();
         } else if (id == R.id.mailing) {
-
+            toEmailPage();
         } else if (id == R.id.tools) {
-
+            // admin tools TODO:
         } else if (id == R.id.logout) {
             session.logOut();
             toMainPage();
@@ -126,15 +111,9 @@ public class naviActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void showMessage(final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(naviActivity.this,
-                        message,
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+    private void toEmailPage() {
+        Intent intent = new Intent(getApplicationContext(), EmailListActivity.class);
+        startActivity(intent);
     }
 
     public View.OnClickListener statusMessage(final String message) {
@@ -146,28 +125,6 @@ public class naviActivity extends AppCompatActivity
             }
         };
     }
-
-    public void GetMailingLists() {
-        final Context context = this;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // SuccessModel model = new SuccessModel();
-                Object response = session.fetch("emaillists", "GET", null, context);
-                if (response == null) {
-                    return;
-                }
-                final JSONArray array = (JSONArray) response;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        init(array);
-                    }
-                });
-            }
-        }).start();
-    }
-
 }
 
 
